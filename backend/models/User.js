@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
 	username: {
@@ -9,9 +9,9 @@ const UserSchema = new mongoose.Schema({
 		unique: true
 	},
 	email: {
-		type: String,
+		type:  String,
 		required: true,
-		max: 20,
+		max: 50,
 		unique: true
 	},
 	password: {
@@ -27,17 +27,17 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		default: " "
 	},
-	following: {
+	followers: {
 		type: Array,
 		default: []
 	},
-	followers: {
+	following: {
 		type: Array,
 		default: []
 	},
 	isAdmin: {
 		type: Boolean,
-		default: false
+		default: false,
 	},
 	description: {
 		type: String,
@@ -54,7 +54,7 @@ const UserSchema = new mongoose.Schema({
 	relationship: {
 		type: Number,
 		enum: [1,2,3]
-	},
-},{timestamps: true})
+	}
+},{timestamps: true});
 
-module.exports = mongoose.model('user', UserSchema);
+module.exports = mongoose.model("user", UserSchema);

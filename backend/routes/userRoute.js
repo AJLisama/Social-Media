@@ -1,6 +1,29 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const userModel = require('../models/User.js');
 const bcrypt = require('bcrypt');
+
+// Retrieve All User
+router.get("/allUser", async (req, res)=> {
+	try {
+		const retrieveUsers = await userModel.find({})
+		const {password, updatedAt, isAdmin, ...other} = retrieveUser._doc
+		res.status(200).json(other);
+	} catch(err) {
+		res.status(500).json(err)
+	}
+})
+
+// Retrieve A User
+router.get('/:id', async (req, res)=> {
+	try {
+		const retrieveUser = await userModel.findById(req.params.id)
+		const {password, updatedAt, isAdmin, ...other} = retrieveUser._doc
+		res.status(200).json(other)
+	} catch(err) {
+		res.status(500).json(err)
+	}
+});
+
 
 // Follow A User
 router.put('/:id/follow', async (req, res)=> {
@@ -45,4 +68,4 @@ router.put('/:id/unfollow', async (req, res)=> {
 	}
 });
 
-module.exports = router
+module.exports = router;

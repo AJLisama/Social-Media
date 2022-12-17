@@ -5,17 +5,22 @@ const bcrypt = require('bcrypt');
 // Register User
 router.post('/register', async (req, res)=> {
 	try {
-		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = await bcrypt.hash(req.body.password, salt);
+		const checkUserEmail = await userModel.findOne({email: req.body.email})
+		if(checkUserEmail === null) {
+			const salt = await bcrypt.genSalt(10);
+			const hashedPassword = await bcrypt.hash(req.body.password, salt);
 		
-		const regUser = new userModel({
-			username: req.body.username,
-			email: req.body.email,
-			password: hashedPassword
-		});
+			const regUser = new userModel({
+				username: req.body.username,
+				email: req.body.email,
+				password: hashedPassword
+			});
 
-		const user = await regUser.save();
-		res.status(200).json(user);
+			const user = await regUser.save();
+			res.status(200).json(user);
+			} else {
+				res.status(403).json("Duplicate email found, please use other email")
+			}
 	} catch(err) {
 		return res.status(500).json(err)
 	}	
