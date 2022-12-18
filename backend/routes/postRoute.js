@@ -27,4 +27,14 @@ router.put('/:id', async (req, res)=> {
 	}
 });
 
+// Retrieve All Post (for development)
+router.get('/retrieveAllPost', async (req, res)=> {
+	try {
+		const allPost = await postModel.find({});
+		res.status(200).json(allPost);
+	} catch(err) {
+		res.status(500).json(err)
+	}
+});
+
 module.exports = router;
