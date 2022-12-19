@@ -42,6 +42,22 @@ router.delete('/:id', async (req, res)=> {
 	}
 });
 
+// Like Unlike A Post
+router.put('/:id/like', async (req, res)=> {
+	try {
+		const likePost = await postModel.findById(req.params.id);
+		if(likePost.likes.includes(req.body.userId)) {
+			await likePost.updateOne({$pull: {likes: req.body.userId}})
+			res.status(200).json("Post has been unliked.");
+		} else {
+			await likePost.updateOne({$push: {likes: req.body.userId}})
+			res.status(200).json("The post has been liked.");
+		}
+	} catch(err) {
+		res.status(500).json(err);
+	}
+});
+
 // Retrieve All Post (for development)
 router.get('/retrieveAllPost', async (req, res)=> {
 	try {
