@@ -59,7 +59,7 @@ router.put('/:id/like', async (req, res)=> {
 });
 
 // Retrieve All Post (for development)
-router.get('/retrieveAllPost', async (req, res)=> {
+router.get('/retrieve/all', async (req, res)=> {
 	try {
 		const allPost = await postModel.find({});
 		res.status(200).json(allPost);
@@ -75,6 +75,19 @@ router.get('/:id', async (req, res)=> {
 		res.status(200).json(retrievePost);
 	} catch(err) {
 		res.status(500).json(err)
+	}
+});
+
+// Retrieve Post of Followers for Timeline
+router.get('/timeline', async (req, res)=> {
+	try {
+		const loginUser = await userPost.findById(req.body.userId);
+		const userPost = await postModel.find({userId: loginUser._id});
+		const friendPost = await Promise.all(loginUser.followings.map((friendId)=> {
+			postModel.find({userId: friendId})
+		}));
+	} catch(err) {
+		res.status(500).json(err);
 	}
 });
 
