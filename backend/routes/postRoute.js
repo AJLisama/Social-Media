@@ -68,4 +68,14 @@ router.get('/retrieveAllPost', async (req, res)=> {
 	}
 });
 
+// Retrieve A Post
+router.get('/:id', async (req, res)=> {
+	try {
+		const retrievePost = await postModel.findById(req.params.id)
+		res.status(200).json(retrievePost);
+	} catch(err) {
+		res.status(500).json(err)
+	}
+});
+
 module.exports = router;
