@@ -86,6 +86,7 @@ router.get('/timeline', async (req, res)=> {
 		const friendPost = await Promise.all(loginUser.followings.map((friendId)=> {
 			postModel.find({userId: friendId})
 		}));
+		res.json(userPost.concat(...friendPost))
 	} catch(err) {
 		res.status(500).json(err);
 	}
